@@ -4,18 +4,217 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image search</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
-      integrity="sha512-ISS7cAi1PEhQ8jnbJpJZMd29NlhNj4AWYyLOSp2CE/CsHxTCu+r+t0D2yoJudVrd0/8fTVPUVDzY5Tvli75u/g=="
-      crossorigin="anonymous"
-    />
   </head>
   <body>
-    <form class="search-form" id="search-form">
-      <input type="text" name="searchQuery" autocomplete="off" placeholder="Search images..." />
-      <button type="submit">Search</button>
-    </form>
+    <div class="search-wrapper">
+      <form class="search-form" id="search-form">
+        <input
+          id="search-input"
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button id="search-button" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <div id="gallery" class="gallery">
+      <!-- <div class="photo-card">
+        <div class="image-thumb">
+          <img
+            src="https://pixabay.com/get/gdc0aa472885bf88cbae50f171a8a1fd1c5dd13c2f25c6600d0ea6748b34901ea55765879cf9a8eee74933c213300213139370643c68d369ff2cc1e0b1b2bd7a1_640.jpg"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="info">
+          <p class="info-item">
+            <b>Likes</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Views</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Comments</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Downloads</b>
+            <span>1500000</span>
+          </p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="image-thumb">
+          <img
+            src="https://pixabay.com/get/gdc0aa472885bf88cbae50f171a8a1fd1c5dd13c2f25c6600d0ea6748b34901ea55765879cf9a8eee74933c213300213139370643c68d369ff2cc1e0b1b2bd7a1_640.jpg"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="info">
+          <p class="info-item">
+            <b>Likes</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Views</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Comments</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Downloads</b>
+            <span>1500000</span>
+          </p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="image-thumb">
+          <img
+            src="https://pixabay.com/get/gdc0aa472885bf88cbae50f171a8a1fd1c5dd13c2f25c6600d0ea6748b34901ea55765879cf9a8eee74933c213300213139370643c68d369ff2cc1e0b1b2bd7a1_640.jpg"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="info">
+          <p class="info-item">
+            <b>Likes</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Views</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Comments</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Downloads</b>
+            <span>1500000</span>
+          </p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="image-thumb">
+          <img
+            src="https://pixabay.com/get/gdc0aa472885bf88cbae50f171a8a1fd1c5dd13c2f25c6600d0ea6748b34901ea55765879cf9a8eee74933c213300213139370643c68d369ff2cc1e0b1b2bd7a1_640.jpg"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="info">
+          <p class="info-item">
+            <b>Likes</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Views</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Comments</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Downloads</b>
+            <span>1500000</span>
+          </p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="image-thumb">
+          <img
+            src="https://pixabay.com/get/gdc0aa472885bf88cbae50f171a8a1fd1c5dd13c2f25c6600d0ea6748b34901ea55765879cf9a8eee74933c213300213139370643c68d369ff2cc1e0b1b2bd7a1_640.jpg"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="info">
+          <p class="info-item">
+            <b>Likes</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Views</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Comments</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Downloads</b>
+            <span>1500000</span>
+          </p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="image-thumb">
+          <img
+            src="https://pixabay.com/get/gdc0aa472885bf88cbae50f171a8a1fd1c5dd13c2f25c6600d0ea6748b34901ea55765879cf9a8eee74933c213300213139370643c68d369ff2cc1e0b1b2bd7a1_640.jpg"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="info">
+          <p class="info-item">
+            <b>Likes</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Views</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Comments</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Downloads</b>
+            <span>1500000</span>
+          </p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="image-thumb">
+          <img
+            src="https://pixabay.com/get/gdc0aa472885bf88cbae50f171a8a1fd1c5dd13c2f25c6600d0ea6748b34901ea55765879cf9a8eee74933c213300213139370643c68d369ff2cc1e0b1b2bd7a1_640.jpg"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="info">
+          <p class="info-item">
+            <b>Likes</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Views</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Comments</b>
+            <span>1500</span>
+          </p>
+          <p class="info-item">
+            <b>Downloads</b>
+            <span>1500000</span>
+          </p>
+        </div>
+      </div> -->
+    </div>
+    <!-- Карточки изображений -->
+
+    <button id="load-more" type="button" class="load-more">Load more</button>
 
     <!-- Скрипт идёт последним в разметке. В нём уже подключен главный SASS-файл. -->
     <script src="./index.js"></script>
