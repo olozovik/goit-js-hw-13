@@ -1,7 +1,7 @@
 import axios from 'axios';
 import imagesTpl from '../templates/image';
 
-export const fetchImages = async ({ query, page }) => {
+export const fetchImages = ({ query, page, imagesPerPage }) => {
   const baseURL = 'https://pixabay.com/api/';
   const params = {
     key: '21989340-5677ac132e2fa2f040ad0925d',
@@ -9,16 +9,11 @@ export const fetchImages = async ({ query, page }) => {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: 'true',
-    per_page: 40,
+    per_page: imagesPerPage,
     page,
   };
 
-  try {
-    const images = await axios(baseURL, { params });
-    return images;
-  } catch (error) {
-    alert('We have some problem');
-  }
+  return axios(baseURL, { params });
 };
 
 // export const renderImages = async (query, page, gallery) => {
