@@ -3,6 +3,10 @@ import '@fortawesome/fontawesome-free/js/fontawesome';
 // import '@fortawesome/fontawesome-free/js/brands';
 // import '@fortawesome/fontawesome-free/js/regular';
 import { Notify, Loading } from 'notiflix';
+// var throttle = require('lodash.throttle');
+import throttle from 'lodash.throttle';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.css';
 import 'modern-normalize/modern-normalize.css';
 import imagesTpl from './templates/image';
 import './sass/main.scss';
@@ -14,6 +18,7 @@ const refs = {
   // input: document.querySelector('#search-input'),
   // buttonSearch: document.querySelector('#search-button'),
   gallery: document.querySelector('#gallery'),
+  imageThumb: document.querySelector('#image-thumb'),
   buttonLoadMore: document.querySelector('#load-more'),
 };
 
@@ -32,6 +37,18 @@ Notify.init({
   fontSize: '15px',
   width: '350px',
   showOnlyTheLastOne: true,
+});
+
+function setHeightImage() {
+  const imageThumb = document.querySelector('#image-thumb');
+  const imageThumbs = document.querySelectorAll('#image-thumb');
+  const imgWidth = Number.parseFloat(getComputedStyle(imageThumb).width);
+  const height = imgWidth * 0.65 + 'px';
+  imageThumbs.forEach(img => (img.style.height = height));
+}
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  /* options */
 });
 
 refs.formSubmit.addEventListener('submit', searchImages);
@@ -68,13 +85,12 @@ async function searchImages(e) {
       console.log('Number of images: ', images.data.hits.length);
 
       refs.gallery.innerHTML = imagesTpl(images.data.hits);
-
-      if (numberOfPages === 1) {
-        Notify.success('These are all the photos that we found');
-        console.log('These are all the photos that we found');
-      }
+      Notify.success(`Hooray! We found ${images.data.totalHits} images.`);
+      setHeightImage();
+      window.addEventListener('resize', throttle(setHeightImage, 500));
+      lightbox.refresh();
     } catch (error) {
-      console.log('Something wrong', error.message);
+      console.log('Something went wrong', error.message);
     }
   }
 
@@ -101,8 +117,11 @@ async function laodMoreImages(e) {
   try {
     const images = await fetchImages({ query, page, imagesPerPage });
     gallery.insertAdjacentHTML('beforeend', imagesTpl(images.data.hits));
+    setHeightImage();
+    lightbox.refresh();
+    // window.addEventListener('resize', throttle(setHeightImage, 300));
   } catch (error) {
-    console.log('This is error', error.message);
+    console.log('Something went wrong', error.message);
   }
 
   if (currentPage === numberOfPages) {

@@ -84,19 +84,19 @@ img {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
-.image-thumb {
-  height: 15vw;
-  // Добавить брейкпоинты
-  @media screen and (max-width: 1500px) {
-    height: 20vw;
-  }
-  @media screen and (max-width: 1000px) {
-    height: 30vw;
-  }
-  @media screen and (max-width: 620px) {
-    height: 60vw;
-  }
-}
+// .image-thumb {
+//   height: 15vw;
+//   // Добавить брейкпоинты
+//   @media screen and (max-width: 1500px) {
+//     height: 20vw;
+//   }
+//   @media screen and (max-width: 1000px) {
+//     height: 30vw;
+//   }
+//   @media screen and (max-width: 620px) {
+//     height: 60vw;
+//   }
+// }
 
 .info {
   display: grid;
@@ -117,9 +117,9 @@ img {
 }
 
 .load-more {
-  // display: none;
+  display: none;
   margin: 0 auto;
-  display: block;
+  // display: block;
   // font-size: 20px;
   text-transform: uppercase;
   padding: 12px 30px;
