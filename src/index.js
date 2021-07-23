@@ -52,7 +52,6 @@ refs.buttonLoadMore.addEventListener('click', laodMoreImages);
 async function searchImages(e) {
   {
     e.preventDefault();
-
     refs.buttonLoadMore.style.display = 'none';
 
     page = 1;
@@ -66,9 +65,8 @@ async function searchImages(e) {
 
     try {
       const images = await fetchImages({ query, page, imagesPerPage });
-
       if (images.data.hits.length === 0) {
-        Notify.info(
+        Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.',
         );
         return;
@@ -79,9 +77,9 @@ async function searchImages(e) {
       refs.gallery.innerHTML = imagesTpl(images.data.hits);
       Notify.success(`Hooray! We found ${images.data.totalHits} images.`);
       setHeightImage();
+
       window.addEventListener('resize', throttle(setHeightImage, 500));
       lightbox.refresh();
-
       window.scroll(pageXOffset, 0);
     } catch (error) {
       console.log('Something went wrong', error.message);
@@ -104,10 +102,9 @@ async function laodMoreImages(e) {
   }
 
   try {
-    const images = await fetchImages({ query, page, imagesPerPage });
-
     const buttonMoreTop = refs.buttonLoadMore.getBoundingClientRect().top;
 
+    const images = await fetchImages({ query, page, imagesPerPage });
     gallery.insertAdjacentHTML('beforeend', imagesTpl(images.data.hits));
 
     setHeightImage();
@@ -116,7 +113,7 @@ async function laodMoreImages(e) {
     window.scrollBy({
       top:
         buttonMoreTop -
-        getGap() -
+        30 -
         Number.parseInt(getComputedStyle(refs.searchWrapper).height),
       behavior: 'smooth',
     });
@@ -128,24 +125,6 @@ async function laodMoreImages(e) {
     refs.buttonLoadMore.style.display = 'none';
     window.addEventListener('scroll', findEdgeOfPageTrottled);
   }
-}
-
-function getGap() {
-  const photoCardEls = document.querySelectorAll('#photo-card');
-  if (
-    photoCardEls[1].getBoundingClientRect().left -
-      photoCardEls[0].getBoundingClientRect().right !==
-    0
-  ) {
-    return (
-      photoCardEls[1].getBoundingClientRect().left -
-      photoCardEls[0].getBoundingClientRect().right
-    );
-  }
-  return (
-    photoCardEls[1].getBoundingClientRect().top -
-    photoCardEls[0].getBoundingClientRect().bottom
-  );
 }
 
 const findEdgeOfPageTrottled = throttle(() => {
