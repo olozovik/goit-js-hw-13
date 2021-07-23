@@ -1,9 +1,6 @@
 import '@fortawesome/fontawesome-free/js/solid';
 import '@fortawesome/fontawesome-free/js/fontawesome';
-// import '@fortawesome/fontawesome-free/js/brands';
-// import '@fortawesome/fontawesome-free/js/regular';
-import { Notify, Loading } from 'notiflix';
-// var throttle = require('lodash.throttle');
+import { Notify } from 'notiflix';
 import throttle from 'lodash.throttle';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.css';
@@ -15,8 +12,6 @@ import { fetchImages } from './js/getImages';
 const refs = {
   searchWrapper: document.querySelector('.search-wrapper'),
   formSubmit: document.querySelector('#search-form'),
-  // input: document.querySelector('#search-input'),
-  // buttonSearch: document.querySelector('#search-button'),
   gallery: document.querySelector('#gallery'),
   imageThumb: document.querySelector('#image-thumb'),
   buttonLoadMore: document.querySelector('#load-more'),
@@ -81,14 +76,13 @@ async function searchImages(e) {
 
       numberOfPages = Math.ceil(images.data.totalHits / imagesPerPage);
 
-      console.log('Number of pages: ', numberOfPages);
-      console.log('Number of images: ', images.data.hits.length);
-
       refs.gallery.innerHTML = imagesTpl(images.data.hits);
       Notify.success(`Hooray! We found ${images.data.totalHits} images.`);
       setHeightImage();
       window.addEventListener('resize', throttle(setHeightImage, 500));
       lightbox.refresh();
+
+      window.scroll(pageXOffset, 0);
     } catch (error) {
       console.log('Something went wrong', error.message);
     }
@@ -102,11 +96,6 @@ async function searchImages(e) {
 async function laodMoreImages(e) {
   e.preventDefault();
 
-  // if (currentPage + 1 > numberOfPages) {
-  //   alert('No more images');
-  //   return;
-  // }
-
   page += 1;
   currentPage += 1;
 
@@ -116,17 +105,53 @@ async function laodMoreImages(e) {
 
   try {
     const images = await fetchImages({ query, page, imagesPerPage });
+
+    const buttonMoreTop = refs.buttonLoadMore.getBoundingClientRect().top;
+
     gallery.insertAdjacentHTML('beforeend', imagesTpl(images.data.hits));
+
     setHeightImage();
     lightbox.refresh();
-    // window.addEventListener('resize', throttle(setHeightImage, 300));
+
+    window.scrollBy({
+      top:
+        buttonMoreTop -
+        getGap() -
+        Number.parseInt(getComputedStyle(refs.searchWrapper).height),
+      behavior: 'smooth',
+    });
   } catch (error) {
     console.log('Something went wrong', error.message);
   }
 
   if (currentPage === numberOfPages) {
     refs.buttonLoadMore.style.display = 'none';
-    // Когда закончилась прокрутка страницы???
-    Notify.info("We're sorry, but you've reached the end of search results.");
+    window.addEventListener('scroll', findEdgeOfPageTrottled);
   }
 }
+
+function getGap() {
+  const photoCardEls = document.querySelectorAll('#photo-card');
+  if (
+    photoCardEls[1].getBoundingClientRect().left -
+      photoCardEls[0].getBoundingClientRect().right !==
+    0
+  ) {
+    return (
+      photoCardEls[1].getBoundingClientRect().left -
+      photoCardEls[0].getBoundingClientRect().right
+    );
+  }
+  return (
+    photoCardEls[1].getBoundingClientRect().top -
+    photoCardEls[0].getBoundingClientRect().bottom
+  );
+}
+
+const findEdgeOfPageTrottled = throttle(() => {
+  const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+  if (scrollTop + clientHeight > scrollHeight - 20) {
+    Notify.info("We're sorry, but you've reached the end of search results.");
+    window.removeEventListener('scroll', findEdgeOfPageTrottled);
+  }
+}, 300);
